@@ -2,7 +2,7 @@ import Vue from 'vue';
 import App from './App.vue';
 import vuetify from './plugins/vuetify';
 import {router} from './router'
-// import store from './store'
+import store from './store'
 
 //axios 配置
 var axios = require('axios')
@@ -53,25 +53,23 @@ Vue.config.silent = true
 // )
 
 //全局组件注册
-import AccountManagement from "./components/Lab1/AccountManagement";
-import LoanProducts from "./components/Lab1/LoanProducts";
-import LeftMenu from "./components/Lab1/Component/LeftMenu";
-import TopToolBar from "./components/Lab1/Component/TopToolBar";
+import LeftMenu from "./components/Lab1/Component/Normal/LeftMenu";
+import TopToolBar from "./components/Lab1/Component/Normal/TopToolBar";
+import BackBar from "./components/Lab1/Component/Normal/BackBar";
 
-Vue.component('AccountManagement', AccountManagement);
-Vue.component('LoanProducts', LoanProducts);
 Vue.component('LeftMenu', LeftMenu);
 Vue.component('TopToolBar', TopToolBar);
+Vue.component('BackBar', BackBar);
 
 
 new Vue({
   vuetify,
   router,
+  store,
   components: {
-    AccountManagement,
-    LoanProducts,
     LeftMenu,
-    TopToolBar
+    TopToolBar,
+    BackBar
   },
   render: h => h(App)
 }).$mount('#app')

@@ -6,11 +6,17 @@ Vue.use(VueRouter)
 
 import Home from "../components/Lab1/Home";
 import Login from "../components/Login";
+import RunningTab from "../components/Lab1/RunningTab";
 
 
 
 Vue.use(Router);
 const routes = [
+  {
+    path: '/Login',
+    name: 'Login',
+    component: Login
+  },
   {
     path: '/',
     name: 'Home',
@@ -20,9 +26,12 @@ const routes = [
     }
   },
   {
-    path: '/Login',
-    name: 'Login',
-    component: Login
+    path: '/runningtab',
+    name: 'RunningTab',
+    component: RunningTab,
+    meta: {
+      requireAuth: true // 需要登录权限
+    }
   },
 ]
 

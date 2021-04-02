@@ -5,12 +5,13 @@
         <div style="width: 100%" class="d-flex flex-row flex-fill">
             <LeftMenu :nagDrawer="nagDrawer" :selected="selected" />
 
-            <v-main style="" class="flex-fill">
+            <div class="flex-fill">
+                <BackBar :selected="selected" />
                 {{ selected }}
                 {{ nagDrawer }}
-<!--                <AccountManagement v-if="selected === '账户管理'" />-->
-<!--                <LoanProducts v-if="selected === '贷款产品'" />-->
-            </v-main>
+                <PublicTradeWater />
+            </div>
+
         </div>
 
     </div>
@@ -18,21 +19,22 @@
 </template>
 
 <script>
+    import PublicTradeWater from "./Component/Business/Public/PublicTradeWater";
     export default {
-        name: "Home",
-
+        name: "RunningTab",
+        components: {PublicTradeWater},
         data: () => ({
             nagDrawer: true,
-            selected: 'nmd',
+            selected: '交易流水查询',
         }),
         mounted() {
             this.getInfo();
         },
         methods: {
             getInfo() {
-                // if (this.$route.params.nagDrawer !== '') {
-                //     this.nagDrawer = this.$route.params.nagDrawer;
-                // }
+                if (this.$route.params.nagDrawer !== '') {
+                    this.nagDrawer = this.$route.params.nagDrawer;
+                }
             },
             getNagDrawer(message) {
                 this.nagDrawer = message;

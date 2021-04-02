@@ -48,7 +48,10 @@ export default {
   },
   methods: {
     login () {
-      this.$router.replace({path: '/'});
+      this.$router.push({
+        path: '/',
+        params: { nagDrawer: 'true' }
+      })
     //   if (this.username==='') {
     //     this.status=2;
     //   }else if (this.password===''){
@@ -62,7 +65,7 @@ export default {
     //         if (resp.status === 200 && resp.data.hasOwnProperty("token")) {
     //           localStorage.setItem("username",this.username);
     //           this.$store.commit('login', resp.data);
-  //             this.$router.replace({path: '/'});
+    //             this.$router.replace({path: '/'});
     //           this.status=0;
     //         }
     //       })

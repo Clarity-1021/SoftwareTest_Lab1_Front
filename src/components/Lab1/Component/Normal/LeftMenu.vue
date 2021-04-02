@@ -1,5 +1,5 @@
 <template>
-    <v-main>
+    <div>
         <v-navigation-drawer v-if="nagDrawer" height="100%" width="220" permanent>
             <v-list>
                 <v-list-group :value="vListVals[0]" color="teal darken-1" :prepend-icon="listItems[0].icon">
@@ -7,8 +7,8 @@
                         <v-list-item-title>{{ listItems[0].title }}</v-list-item-title>
                     </template>
 
-                    <v-list-item-group>
-                        <v-list-item disabled v-for="(subItem, subIndex) in listItems[0].subItems" :key="subIndex" link>
+                    <v-list-item-group v-model="vListLinks[0]">
+                        <v-list-item disabled v-for="(subItem, subIndex) in listItems[0].subItems" :key="subIndex" href="/runningtab">
                             <v-list-item-title>{{ subItem }}</v-list-item-title>
                         </v-list-item>
                         <v-list-item @click="selectMenuItem('交易流水查询')" link>
@@ -24,7 +24,7 @@
                         <v-list-item-title>{{ listItems[1].title }}</v-list-item-title>
                     </template>
 
-                    <v-list-item-group>
+                    <v-list-item-group v-model="vListLinks[1]">
                         <v-list-item @click="selectMenuItem('账户管理')" link>
                             <v-list-item-title>账户管理</v-list-item-title>
                         </v-list-item>
@@ -43,7 +43,7 @@
                     <template v-slot:activator>
                         <v-list-item-title>{{ listItems[2].title }}</v-list-item-title>
                     </template>
-                    <v-list-item-group>
+                    <v-list-item-group v-model="vListLinks[2]">
                         <v-list-item disabled v-for="(item, subIndex) in listItems[2].subItems" :key="subIndex" link>
                             <v-list-item-title>{{ item }}</v-list-item-title>
                         </v-list-item>
@@ -64,18 +64,22 @@
                         </v-list-item>
                     </v-list-item-group>
                 </v-list-group>
-                <v-list-group color="teal darken-1" :prepend-icon="listItems[3].icon">
+                <v-list-group :value="vListVals[3]" color="teal darken-1" :prepend-icon="listItems[3].icon">
                     <template v-slot:activator>
                         <v-list-item-title>{{ listItems[3].title }}</v-list-item-title>
                     </template>
 
-                    <v-list-item-group>
+                    <v-list-item-group v-model="vListLinks[3]">
                         <v-list-item disabled v-for="(subItem, subIndex) in listItems[3].subItems" :key="subIndex" link>
                             <v-list-item-title>{{ subItem }}</v-list-item-title>
                         </v-list-item>
                     </v-list-item-group>
                 </v-list-group>
             </v-list>
+            {{ vListLinks }}
+            <br/>
+            {{ vListVals }}
+            <br/>
         </v-navigation-drawer>
         <v-navigation-drawer v-else permanent width="60" class="d-flex flex-column align-center justify-start px-3">
             <v-menu offset-x>
@@ -161,7 +165,7 @@
                 </v-list>
             </v-menu>
         </v-navigation-drawer>
-    </v-main>
+    </div>
 </template>
 
 <script>
@@ -174,18 +178,24 @@
             },
             selected: {
                 type: String,
-                default: 'nmd',
+                default: 'nmd'
             }
         },
         created() {
             this.getInfo()
         },
         data: () => ({
-            vListVals: [
-                false,
-                false,
-                false
-            ],
+            // sharedState: this.$store.state,
+            // nagDrawer: true,
+            vListVals: [false,false,false,false],
+            vListLinks: ['', '', '', ''],
+            itemToNum: {
+                '交易流水查询': [0, 6, 'RunningTab'],
+                '账户管理': [1, 0],
+                '购买产品': [1, 7],
+                '贷款账户管理': [2, 2],
+                '贷款日终批量': [2, 3]
+            },
             listItems: [
                 {
                     title: '公共业务',
@@ -236,18 +246,16 @@
             ],
         }),
         methods: {
-            selectMenuItem: function (item) {
-                this.selected = item;
+            selectMenuItem(item) {
+                this.$router.push({
+                    name: this.itemToNum[item][2],
+                    params: { nagDrawer: this.nagDrawer }
+                })
             },
-            getInfo: function () {
-                if (this.selected === '交易流水查询') {
-                    this.vListVals[0] = true;
-                }
-                else if (this.selected === '账户管理' || this.selected === '购买产品') {
-                    this.vListVals[1] = true;
-                }
-                else if (this.selected === '贷款账户管理' || this.selected === '贷款日终批量') {
-                    this.vListVals[2] = true;
+            getInfo() {
+                if (this.selected !== 'nmd') {
+                    this.vListVals[this.itemToNum[this.selected][0]] = true;
+                    this.vListLinks[this.itemToNum[this.selected][0]] = this.itemToNum[this.selected][1];
                 }
             },
         }
