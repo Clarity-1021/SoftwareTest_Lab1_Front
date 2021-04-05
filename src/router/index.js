@@ -82,6 +82,10 @@ export const router = new VueRouter({
 //     if (store.state.token) {
 //       next();
 //     } else {
+//       this.$notify({
+//         title: '登陆过期，请重新登录',
+//         type: 'warning'
+//       });
 //       next({
 //         path: '/Login',
 //         query: {redirect: to.fullPath} // 登录成功之后重新跳转到该路由

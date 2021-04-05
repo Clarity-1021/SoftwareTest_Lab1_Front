@@ -2,7 +2,7 @@
     <div>
         <v-navigation-drawer v-if="nagDrawer" height="100%" width="220" permanent>
             <v-list>
-                <v-list-group :value="vListVals[0]" color="teal darken-1" :prepend-icon="listItems[0].icon">
+                <v-list-group :value="vListVals[0]" :color="itemColor" :prepend-icon="listItems[0].icon">
                     <template v-slot:activator>
                         <v-list-item-title>{{ listItems[0].title }}</v-list-item-title>
                     </template>
@@ -19,7 +19,7 @@
                         </v-list-item>
                     </v-list-item-group>
                 </v-list-group>
-                <v-list-group :value="vListVals[1]" color="teal darken-1" :prepend-icon="listItems[1].icon">
+                <v-list-group :value="vListVals[1]" :color="itemColor" :prepend-icon="listItems[1].icon">
                     <template v-slot:activator>
                         <v-list-item-title>{{ listItems[1].title }}</v-list-item-title>
                     </template>
@@ -36,7 +36,7 @@
                         </v-list-item>
                     </v-list-item-group>
                 </v-list-group>
-                <v-list-group :value="vListVals[2]" color="teal darken-1" :prepend-icon="listItems[2].icon">
+                <v-list-group :value="vListVals[2]" :color="itemColor" :prepend-icon="listItems[2].icon">
                     <template v-slot:activator>
                         <v-list-item-title>{{ listItems[2].title }}</v-list-item-title>
                     </template>
@@ -61,7 +61,7 @@
                         </v-list-item>
                     </v-list-item-group>
                 </v-list-group>
-                <v-list-group :value="vListVals[3]" color="teal darken-1" :prepend-icon="listItems[3].icon">
+                <v-list-group :value="vListVals[3]" :color="itemColor" :prepend-icon="listItems[3].icon">
                     <template v-slot:activator>
                         <v-list-item-title>{{ listItems[3].title }}</v-list-item-title>
                     </template>
@@ -81,7 +81,7 @@
         <v-navigation-drawer v-else permanent width="60" class="d-flex flex-column align-center justify-start px-3">
             <v-menu offset-x>
                 <template v-slot:activator="{ attrs, on }">
-                    <v-btn icon color="teal darken-1" class="my-1" v-bind="attrs" v-on="on">
+                    <v-btn icon :color="itemColor" class="my-1" v-bind="attrs" v-on="on">
                         <v-icon>{{ listItems[0].icon }}</v-icon>
                     </v-btn>
                 </template>
@@ -100,7 +100,7 @@
             </v-menu>
             <v-menu offset-x>
                 <template v-slot:activator="{ attrs, on }">
-                    <v-btn icon color="teal darken-1" class="my-1" v-bind="attrs" v-on="on">
+                    <v-btn icon :color="itemColor" class="my-1" v-bind="attrs" v-on="on">
                         <v-icon>{{ listItems[1].icon }}</v-icon>
                     </v-btn>
                 </template>
@@ -119,7 +119,7 @@
             </v-menu>
             <v-menu offset-x>
                 <template v-slot:activator="{ attrs, on }">
-                    <v-btn icon color="teal darken-1" class="my-1" v-bind="attrs" v-on="on">
+                    <v-btn icon :color="itemColor" class="my-1" v-bind="attrs" v-on="on">
                         <v-icon>{{ listItems[2].icon }}</v-icon>
                     </v-btn>
                 </template>
@@ -147,7 +147,7 @@
             </v-menu>
             <v-menu offset-x>
                 <template v-slot:activator="{ attrs, on }">
-                    <v-btn icon color="teal darken-1" class="my-1" v-bind="attrs" v-on="on">
+                    <v-btn icon :color="itemColor" class="my-1" v-bind="attrs" v-on="on">
                         <v-icon>{{ listItems[3].icon }}</v-icon>
                     </v-btn>
                 </template>
@@ -181,6 +181,7 @@
         data: () => ({
             // sharedState: this.$store.state,
             // nagDrawer: true,
+            itemColor: 'green darken-3',
             vListVals: [false,false,false,false],
             vListLinks: ['', '', '', ''],
             itemToNum: {

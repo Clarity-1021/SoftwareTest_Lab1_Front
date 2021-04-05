@@ -2,13 +2,13 @@
     <div class="d-flex flex-column" style="height: 100%">
         <TopToolBar @sendNagDrawer="getNagDrawer" :nagDrawer="nagDrawer" />
 
-        <div style="width: 100%" class="d-flex flex-row flex-fill">
+        <div class="main-container-background d-flex flex-row flex-fill">
             <LeftMenu :nagDrawer="nagDrawer" :selected="selected" />
-
-            <v-main style="" class="flex-fill">
+<!--            <div style="background-image: url('../../assets/images/吃薯片.jpg'); width: 100%">kk</div>-->
+<!--            <v-main class="flex-fill main-container-background">-->
 <!--                {{ selected }}-->
 <!--                {{ nagDrawer }}-->
-            </v-main>
+<!--            </v-main>-->
         </div>
 
     </div>

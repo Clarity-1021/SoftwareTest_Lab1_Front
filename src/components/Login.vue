@@ -48,6 +48,11 @@ export default {
   },
   methods: {
     login () {
+      // this.$message({
+      //     showClose: true,
+      //     message: '成功登陆',
+      //     type: 'success'
+      // });
       this.$router.push({
         path: '/',
         params: { nagDrawer: 'true' }
