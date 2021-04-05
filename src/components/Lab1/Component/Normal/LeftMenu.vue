@@ -76,10 +76,10 @@
                     </v-list-item-group>
                 </v-list-group>
             </v-list>
-            {{ vListLinks }}
-            <br/>
-            {{ vListVals }}
-            <br/>
+<!--            {{ vListLinks }}-->
+<!--            <br/>-->
+<!--            {{ vListVals }}-->
+<!--            <br/>-->
         </v-navigation-drawer>
         <v-navigation-drawer v-else permanent width="60" class="d-flex flex-column align-center justify-start px-3">
             <v-menu offset-x>
@@ -191,10 +191,10 @@
             vListLinks: ['', '', '', ''],
             itemToNum: {
                 '交易流水查询': [0, 6, 'RunningTab'],
-                '账户管理': [1, 0],
-                '购买产品': [1, 7],
-                '贷款账户管理': [2, 2],
-                '贷款日终批量': [2, 3]
+                '账户管理': [1, 0, 'ClientNumber'],
+                '购买产品': [1, 7, 'BuyProducts'],
+                '贷款账户管理': [2, 2, 'Bill'],
+                '贷款日终批量': [2, 3, 'DayEndBatch']
             },
             listItems: [
                 {
@@ -247,10 +247,15 @@
         }),
         methods: {
             selectMenuItem(item) {
-                this.$router.push({
-                    name: this.itemToNum[item][2],
-                    params: { nagDrawer: this.nagDrawer }
-                })
+                if (item === this.selected) {
+                    this.$router.go(0);
+                }
+                else {
+                    this.$router.push({
+                        name: this.itemToNum[item][2],
+                        params: { nagDrawer: this.nagDrawer }
+                    })
+                }
             },
             getInfo() {
                 if (this.selected !== 'nmd') {

@@ -6,10 +6,8 @@
             <LeftMenu :nagDrawer="nagDrawer" :selected="selected" />
 
             <v-main style="" class="flex-fill">
-                {{ selected }}
-                {{ nagDrawer }}
-<!--                <AccountManagement v-if="selected === '账户管理'" />-->
-<!--                <LoanProducts v-if="selected === '贷款产品'" />-->
+<!--                {{ selected }}-->
+<!--                {{ nagDrawer }}-->
             </v-main>
         </div>
 
@@ -30,9 +28,9 @@
         },
         methods: {
             getInfo() {
-                // if (this.$route.params.nagDrawer !== '') {
-                //     this.nagDrawer = this.$route.params.nagDrawer;
-                // }
+                if (this.$route.params.nagDrawer !== '') {
+                    this.nagDrawer = this.$route.params.nagDrawer;
+                }
             },
             getNagDrawer(message) {
                 this.nagDrawer = message;

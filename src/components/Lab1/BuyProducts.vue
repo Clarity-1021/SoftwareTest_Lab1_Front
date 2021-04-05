@@ -8,7 +8,7 @@
 
             <div class="flex-fill">
                 <BackBar :selected="selected" />
-                <DepositAccount />
+                <DepositBuyProduct />
             </div>
 
         </div>
@@ -16,13 +16,13 @@
 </template>
 
 <script>
-    import DepositAccount from "./Component/Business/Deposit/DepositAccount";
+    import DepositBuyProduct from "./Component/Business/Deposit/DepositBuyProduct";
     export default {
-        name: "ClientNumber",
-        components: {DepositAccount},
+        name: "BuyProducts",
+        components: {DepositBuyProduct},
         data: () => ({
             nagDrawer: true,
-            selected: '账户管理',
+            selected: '购买产品',
         }),
         mounted() {
             this.getInfo();

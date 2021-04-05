@@ -8,7 +8,7 @@
 
             <div class="flex-fill">
                 <BackBar :selected="selected" />
-                <DepositAccount />
+                <LoanClearing />
             </div>
 
         </div>
@@ -16,13 +16,13 @@
 </template>
 
 <script>
-    import DepositAccount from "./Component/Business/Deposit/DepositAccount";
+    import LoanClearing from "./Component/Business/Loan/LoanClearing";
     export default {
-        name: "ClientNumber",
-        components: {DepositAccount},
+        name: "DayEndBatch",
+        components: {LoanClearing},
         data: () => ({
             nagDrawer: true,
-            selected: '账户管理',
+            selected: '贷款日终批量',
         }),
         mounted() {
             this.getInfo();

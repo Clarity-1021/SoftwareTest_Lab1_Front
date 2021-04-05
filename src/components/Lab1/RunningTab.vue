@@ -3,19 +3,16 @@
         <TopToolBar @sendNagDrawer="getNagDrawer" :nagDrawer="nagDrawer" />
 
         <div style="width: 100%" class="d-flex flex-row flex-fill">
+
             <LeftMenu :nagDrawer="nagDrawer" :selected="selected" />
 
             <div class="flex-fill">
                 <BackBar :selected="selected" />
-                {{ selected }}
-                {{ nagDrawer }}
                 <PublicTradeWater />
             </div>
 
         </div>
-
     </div>
-
 </template>
 
 <script>

@@ -1,8 +1,12 @@
 import Vue from 'vue';
+import ElementUI from 'element-ui';
+import 'element-ui/lib/theme-chalk/index.css';
 import App from './App.vue';
 import vuetify from './plugins/vuetify';
 import {router} from './router'
 import store from './store'
+
+Vue.use(ElementUI);
 
 //axios 配置
 var axios = require('axios')
@@ -71,5 +75,6 @@ new Vue({
     TopToolBar,
     BackBar
   },
+  el: '#app',
   render: h => h(App)
 }).$mount('#app')
