@@ -1,6 +1,6 @@
 <template>
     <v-main style="background: red">
-        存款账户管理
+        存款产品支取
     </v-main>
 </template>
 

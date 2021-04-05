@@ -7,7 +7,7 @@ Vue.use(VueRouter)
 import Home from "../components/Lab1/Home";
 import Login from "../components/Login";
 import RunningTab from "../components/Lab1/RunningTab";
-import ClientNumber from "../components/Lab1/ClientNumber";
+import WithdrawInAdvance from "../components/Lab1/WithdrawInAdvance";
 import BuyProducts from "../components/Lab1/BuyProducts";
 import Bill from "../components/Lab1/Bill";
 import DayEndBatch from "../components/Lab1/DayEndBatch";
@@ -37,9 +37,9 @@ const routes = [
     }
   },
   {
-    path: '/client_number',
-    name: 'ClientNumber',
-    component: ClientNumber,
+    path: '/withdraw_in_advance',
+    name: 'WithdrawInAdvance',
+    component: WithdrawInAdvance,
     meta: {
       requireAuth: true // 需要登录权限
     }

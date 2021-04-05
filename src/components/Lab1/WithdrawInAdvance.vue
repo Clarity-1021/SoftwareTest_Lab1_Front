@@ -18,11 +18,11 @@
 <script>
     import DepositAccount from "./Component/Business/Deposit/DepositAccount";
     export default {
-        name: "ClientNumber",
+        name: "WithdrawInAdvance",
         components: {DepositAccount},
         data: () => ({
             nagDrawer: true,
-            selected: '账户管理',
+            selected: '产品支取',
         }),
         mounted() {
             this.getInfo();

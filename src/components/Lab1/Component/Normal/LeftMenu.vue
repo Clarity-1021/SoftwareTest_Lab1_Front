@@ -25,16 +25,13 @@
                     </template>
 
                     <v-list-item-group v-model="vListLinks[1]">
-                        <v-list-item @click="selectMenuItem('账户管理')" link>
-                            <v-list-item-title>账户管理</v-list-item-title>
-                        </v-list-item>
                         <v-list-item disabled v-for="(subItem, subIndex) in listItems[1].subItems" :key="subIndex" link>
                             <v-list-item-title>{{ subItem }}</v-list-item-title>
                         </v-list-item>
                         <v-list-item @click="selectMenuItem('购买产品')" link>
                             <v-list-item-title>购买产品</v-list-item-title>
                         </v-list-item>
-                        <v-list-item disabled link>
+                        <v-list-item @click="selectMenuItem('产品支取')" link>
                             <v-list-item-title>产品支取</v-list-item-title>
                         </v-list-item>
                     </v-list-item-group>
@@ -109,16 +106,13 @@
                 </template>
 
                 <v-list>
-                    <v-list-item @click="selectMenuItem('账户管理')" link>
-                        <v-list-item-title>账户管理</v-list-item-title>
-                    </v-list-item>
                     <v-list-item disabled v-for="(subItem, subIndex) in listItems[1].subItems" :key="subIndex" link>
                         <v-list-item-title>{{ subItem }}</v-list-item-title>
                     </v-list-item>
                     <v-list-item @click="selectMenuItem('购买产品')" link>
                         <v-list-item-title>购买产品</v-list-item-title>
                     </v-list-item>
-                    <v-list-item disabled link>
+                    <v-list-item @click="selectMenuItem('产品支取')" link>
                         <v-list-item-title>产品支取</v-list-item-title>
                     </v-list-item>
                 </v-list>
@@ -191,8 +185,8 @@
             vListLinks: ['', '', '', ''],
             itemToNum: {
                 '交易流水查询': [0, 6, 'RunningTab'],
-                '账户管理': [1, 0, 'ClientNumber'],
                 '购买产品': [1, 7, 'BuyProducts'],
+                '产品支取': [1, 8, 'WithdrawInAdvance'],
                 '贷款账户管理': [2, 2, 'Bill'],
                 '贷款日终批量': [2, 3, 'DayEndBatch']
             },
@@ -213,6 +207,7 @@
                     title: '存款业务',
                     icon: 'mdi-cash-100',
                     subItems: [
+                        '账户管理',
                         '存款',
                         '取款',
                         '转账',
