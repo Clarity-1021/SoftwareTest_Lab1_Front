@@ -2,17 +2,16 @@
     <div class="d-flex flex-column" style="height: 100%">
         <TopToolBar @sendNagDrawer="getNagDrawer" :nagDrawer="nagDrawer" />
 
-        <div style="width: 100%" class="d-flex flex-row flex-fill">
-
+        <div class="d-flex flex-row flex-fill">
             <LeftMenu :nagDrawer="nagDrawer" :selected="selected" />
-
-            <div class="flex-fill">
+            <div style="flex: 1">
                 <BackBar :selected="selected" />
                 <DepositAccount />
             </div>
-
         </div>
+
     </div>
+
 </template>
 
 <script>

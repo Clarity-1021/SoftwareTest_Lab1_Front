@@ -2,18 +2,18 @@
     <div class="d-flex flex-column" style="height: 100%">
         <TopToolBar @sendNagDrawer="getNagDrawer" :nagDrawer="nagDrawer" />
 
-        <div style="width: 100%" class="d-flex flex-row flex-fill">
-
+        <div class="d-flex flex-row flex-fill">
             <LeftMenu :nagDrawer="nagDrawer" :selected="selected" />
-
-            <div class="flex-fill">
+            <div style="flex: 1">
                 <BackBar :selected="selected" />
                 <DepositBuyProduct />
             </div>
-
         </div>
+
     </div>
+
 </template>
+
 
 <script>
     import DepositBuyProduct from "./Component/Business/Deposit/DepositBuyProduct";

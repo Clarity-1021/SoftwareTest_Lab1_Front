@@ -1,6 +1,6 @@
 <template>
     <div>
-        <v-navigation-drawer v-if="nagDrawer" height="100%" width="220" permanent>
+        <v-main style="width: 220px;border-right: #cccccc solid 1px; height: 100%;position: relative" v-if="nagDrawer" height="100%" width="220">
             <v-list>
                 <v-list-group :value="vListVals[0]" :color="itemColor" :prepend-icon="listItems[0].icon">
                     <template v-slot:activator>
@@ -77,8 +77,8 @@
 <!--            <br/>-->
 <!--            {{ vListVals }}-->
 <!--            <br/>-->
-        </v-navigation-drawer>
-        <v-navigation-drawer v-else permanent width="60" class="d-flex flex-column align-center justify-start px-3">
+        </v-main>
+        <v-main style="width: 60px;border-right: #cccccc solid 1px; height: 100%" v-else class="d-flex flex-column align-center justify-start px-3">
             <v-menu offset-x>
                 <template v-slot:activator="{ attrs, on }">
                     <v-btn icon :color="itemColor" class="my-1" v-bind="attrs" v-on="on">
@@ -158,7 +158,7 @@
                     </v-list-item>
                 </v-list>
             </v-menu>
-        </v-navigation-drawer>
+        </v-main>
     </div>
 </template>
 

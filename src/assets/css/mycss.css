@@ -1,4 +1,33 @@
-.main-container-background {
-    width: 100%;
-    background-image: url('../images/吃薯片.jpg');
-}
+/*.main-container-background {*/
+/*    width: 100%;*/
+/*    background-image: url('../images/吃薯片.jpg');*/
+/*}*/
+
+/*.outer-container {*/
+/*    display: flex;*/
+/*    flex-direction: column;*/
+/*    justify-content: flex-start;*/
+/*    align-items: center;*/
+/*    height: 100%;*/
+/*    min-width: 100vH;*/
+/*}*/
+
+/*.outer-containe::-webkit-scrollbar {*/
+/*    display: none;*/
+/*}*/
+
+/*.inner-container {*/
+/*    !*flex: 1;*!*/
+/*    !*justify-content: start;*!*/
+/*    !*border: solid;*!*/
+/*    width: 100%;*/
+/*    height: 100%;*/
+/*    overflow: auto;*/
+/*    -ms-overflow-style: none;*/
+/*    display: flex;*/
+/*    flex-direction: row;*/
+/*}*/
+
+/*.bordered-black {*/
+/*    border: solid;*/
+/*}*/

@@ -9,6 +9,10 @@
 <!--                {{ selected }}-->
 <!--                {{ nagDrawer }}-->
 <!--            </v-main>-->
+<!--            <div>-->
+<!--                <BackBar :selected="selected" />-->
+<!--                <LoanAccount />-->
+<!--            </div>-->
         </div>
 
     </div>

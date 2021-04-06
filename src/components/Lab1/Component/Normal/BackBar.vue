@@ -1,13 +1,15 @@
 <template>
-    <v-card tile flat class="d-flex flex-row align-center px-2" width="100%" height="60">
-        <div @click="goBack" class="back-btn d-flex flex-row align-center">
-            <v-icon>mdi-arrow-left</v-icon>
+    <div style="height: 60px;  border-bottom: solid 1px #cccccc" class="d-flex flex-row align-center px-2">
+<!--    <v-card tile flat style="border: solid" class="d-flex flex-row align-center px-2" height="60">-->
+<!--        <div @click="goBack" class="back-btn d-flex flex-row align-center">-->
+<!--            <v-icon>mdi-arrow-left</v-icon>-->
 
-            <div class="subtitle-1 pl-3 pr-5">返回</div>
-        </div>
-        <v-divider vertical></v-divider>
-        <div class="subtitle-1 px-3">{{ selected }}</div>
-    </v-card>
+<!--            <div class="subtitle-1 pl-3 pr-5">返回</div>-->
+            <el-page-header style="color: #2E7D32" class="pl-3" @back="goBack" :content="selected"></el-page-header>
+<!--        </div>-->
+<!--        <el-divider vertical></el-divider>-->
+<!--        <div class="subtitle-1 px-3">{{ selected }}</div>-->
+    </div>
 </template>
 
 <script>
