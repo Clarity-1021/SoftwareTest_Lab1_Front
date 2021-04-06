@@ -1,14 +1,94 @@
 <template>
     <div>
-        <v-main style="width: 220px;border-right: #cccccc solid 1px; height: 100%;position: relative" v-if="nagDrawer" height="100%" width="220">
-            <v-list>
-                <v-list-group :value="vListVals[0]" :color="itemColor" :prepend-icon="listItems[0].icon">
-                    <template v-slot:activator>
-                        <v-list-item-title>{{ listItems[0].title }}</v-list-item-title>
+        <transition name="el-fade-in-linear" mode="out-in">
+            <v-main style="width: 220px;border-right: #cccccc solid 1px; height: 100%" v-if="nagDrawer" height="100%" width="220">
+                <v-list>
+                    <v-list-group :value="vListVals[0]" :color="itemColor" :prepend-icon="listItems[0].icon">
+                        <template v-slot:activator>
+                            <v-list-item-title>{{ listItems[0].title }}</v-list-item-title>
+                        </template>
+
+                        <v-list-item-group v-model="vListLinks[0]">
+                            <v-list-item disabled v-for="(subItem, subIndex) in listItems[0].subItems" :key="subIndex" href="/runningtab">
+                                <v-list-item-title>{{ subItem }}</v-list-item-title>
+                            </v-list-item>
+                            <v-list-item @click="selectMenuItem('交易流水查询')" link>
+                                <v-list-item-title>交易流水查询</v-list-item-title>
+                            </v-list-item>
+                            <v-list-item disabled link>
+                                <v-list-item-title>客户管理</v-list-item-title>
+                            </v-list-item>
+                        </v-list-item-group>
+                    </v-list-group>
+                    <v-list-group :value="vListVals[1]" :color="itemColor" :prepend-icon="listItems[1].icon">
+                        <template v-slot:activator>
+                            <v-list-item-title>{{ listItems[1].title }}</v-list-item-title>
+                        </template>
+
+                        <v-list-item-group v-model="vListLinks[1]">
+                            <v-list-item disabled v-for="(subItem, subIndex) in listItems[1].subItems" :key="subIndex" link>
+                                <v-list-item-title>{{ subItem }}</v-list-item-title>
+                            </v-list-item>
+                            <v-list-item @click="selectMenuItem('购买产品')" link>
+                                <v-list-item-title>购买产品</v-list-item-title>
+                            </v-list-item>
+                            <v-list-item @click="selectMenuItem('产品支取')" link>
+                                <v-list-item-title>产品支取</v-list-item-title>
+                            </v-list-item>
+                        </v-list-item-group>
+                    </v-list-group>
+                    <v-list-group :value="vListVals[2]" :color="itemColor" :prepend-icon="listItems[2].icon">
+                        <template v-slot:activator>
+                            <v-list-item-title>{{ listItems[2].title }}</v-list-item-title>
+                        </template>
+                        <v-list-item-group v-model="vListLinks[2]">
+                            <v-list-item disabled v-for="(item, subIndex) in listItems[2].subItems" :key="subIndex" link>
+                                <v-list-item-title>{{ item }}</v-list-item-title>
+                            </v-list-item>
+                            <v-list-item @click="selectMenuItem('贷款账户管理')" link>
+                                <v-list-item-title>贷款账户管理</v-list-item-title>
+                            </v-list-item>
+                            <v-list-item @click="selectMenuItem('贷款日终批量')" link>
+                                <v-list-item-title>贷款日终批量</v-list-item-title>
+                            </v-list-item>
+                            <v-list-item disabled link>
+                                <v-list-item-title>贷款核销</v-list-item-title>
+                            </v-list-item>
+                            <v-list-item disabled link>
+                                <v-list-item-title>贷款计提</v-list-item-title>
+                            </v-list-item>
+                            <v-list-item disabled link>
+                                <v-list-item-title>贷款产品</v-list-item-title>
+                            </v-list-item>
+                        </v-list-item-group>
+                    </v-list-group>
+                    <v-list-group :value="vListVals[3]" :color="itemColor" :prepend-icon="listItems[3].icon">
+                        <template v-slot:activator>
+                            <v-list-item-title>{{ listItems[3].title }}</v-list-item-title>
+                        </template>
+
+                        <v-list-item-group v-model="vListLinks[3]">
+                            <v-list-item disabled v-for="(subItem, subIndex) in listItems[3].subItems" :key="subIndex" link>
+                                <v-list-item-title>{{ subItem }}</v-list-item-title>
+                            </v-list-item>
+                        </v-list-item-group>
+                    </v-list-group>
+                </v-list>
+    <!--            {{ vListLinks }}-->
+    <!--            <br/>-->
+    <!--            {{ vListVals }}-->
+    <!--            <br/>-->
+            </v-main>
+            <v-main style="width: 60px;border-right: #cccccc solid 1px; height: 100%" v-else class="d-flex flex-column align-center justify-start px-3">
+                <v-menu offset-x>
+                    <template v-slot:activator="{ attrs, on }">
+                        <v-btn icon :color="itemColor" class="my-1" v-bind="attrs" v-on="on">
+                            <v-icon>{{ listItems[0].icon }}</v-icon>
+                        </v-btn>
                     </template>
 
-                    <v-list-item-group v-model="vListLinks[0]">
-                        <v-list-item disabled v-for="(subItem, subIndex) in listItems[0].subItems" :key="subIndex" href="/runningtab">
+                    <v-list>
+                        <v-list-item disabled v-for="(subItem, subIndex) in listItems[0].subItems" :key="subIndex" link>
                             <v-list-item-title>{{ subItem }}</v-list-item-title>
                         </v-list-item>
                         <v-list-item @click="selectMenuItem('交易流水查询')" link>
@@ -17,14 +97,16 @@
                         <v-list-item disabled link>
                             <v-list-item-title>客户管理</v-list-item-title>
                         </v-list-item>
-                    </v-list-item-group>
-                </v-list-group>
-                <v-list-group :value="vListVals[1]" :color="itemColor" :prepend-icon="listItems[1].icon">
-                    <template v-slot:activator>
-                        <v-list-item-title>{{ listItems[1].title }}</v-list-item-title>
+                    </v-list>
+                </v-menu>
+                <v-menu offset-x>
+                    <template v-slot:activator="{ attrs, on }">
+                        <v-btn icon :color="itemColor" class="my-1" v-bind="attrs" v-on="on">
+                            <v-icon>{{ listItems[1].icon }}</v-icon>
+                        </v-btn>
                     </template>
 
-                    <v-list-item-group v-model="vListLinks[1]">
+                    <v-list>
                         <v-list-item disabled v-for="(subItem, subIndex) in listItems[1].subItems" :key="subIndex" link>
                             <v-list-item-title>{{ subItem }}</v-list-item-title>
                         </v-list-item>
@@ -34,13 +116,16 @@
                         <v-list-item @click="selectMenuItem('产品支取')" link>
                             <v-list-item-title>产品支取</v-list-item-title>
                         </v-list-item>
-                    </v-list-item-group>
-                </v-list-group>
-                <v-list-group :value="vListVals[2]" :color="itemColor" :prepend-icon="listItems[2].icon">
-                    <template v-slot:activator>
-                        <v-list-item-title>{{ listItems[2].title }}</v-list-item-title>
+                    </v-list>
+                </v-menu>
+                <v-menu offset-x>
+                    <template v-slot:activator="{ attrs, on }">
+                        <v-btn icon :color="itemColor" class="my-1" v-bind="attrs" v-on="on">
+                            <v-icon>{{ listItems[2].icon }}</v-icon>
+                        </v-btn>
                     </template>
-                    <v-list-item-group v-model="vListLinks[2]">
+
+                    <v-list>
                         <v-list-item disabled v-for="(item, subIndex) in listItems[2].subItems" :key="subIndex" link>
                             <v-list-item-title>{{ item }}</v-list-item-title>
                         </v-list-item>
@@ -59,106 +144,23 @@
                         <v-list-item disabled link>
                             <v-list-item-title>贷款产品</v-list-item-title>
                         </v-list-item>
-                    </v-list-item-group>
-                </v-list-group>
-                <v-list-group :value="vListVals[3]" :color="itemColor" :prepend-icon="listItems[3].icon">
-                    <template v-slot:activator>
-                        <v-list-item-title>{{ listItems[3].title }}</v-list-item-title>
+                    </v-list>
+                </v-menu>
+                <v-menu offset-x>
+                    <template v-slot:activator="{ attrs, on }">
+                        <v-btn icon :color="itemColor" class="my-1" v-bind="attrs" v-on="on">
+                            <v-icon>{{ listItems[3].icon }}</v-icon>
+                        </v-btn>
                     </template>
 
-                    <v-list-item-group v-model="vListLinks[3]">
-                        <v-list-item disabled v-for="(subItem, subIndex) in listItems[3].subItems" :key="subIndex" link>
-                            <v-list-item-title>{{ subItem }}</v-list-item-title>
+                    <v-list>
+                        <v-list-item disabled v-for="(item, subIndex) in listItems[3].subItems" :key="subIndex" link>
+                            <v-list-item-title v-text="item"></v-list-item-title>
                         </v-list-item>
-                    </v-list-item-group>
-                </v-list-group>
-            </v-list>
-<!--            {{ vListLinks }}-->
-<!--            <br/>-->
-<!--            {{ vListVals }}-->
-<!--            <br/>-->
-        </v-main>
-        <v-main style="width: 60px;border-right: #cccccc solid 1px; height: 100%" v-else class="d-flex flex-column align-center justify-start px-3">
-            <v-menu offset-x>
-                <template v-slot:activator="{ attrs, on }">
-                    <v-btn icon :color="itemColor" class="my-1" v-bind="attrs" v-on="on">
-                        <v-icon>{{ listItems[0].icon }}</v-icon>
-                    </v-btn>
-                </template>
-
-                <v-list>
-                    <v-list-item disabled v-for="(subItem, subIndex) in listItems[0].subItems" :key="subIndex" link>
-                        <v-list-item-title>{{ subItem }}</v-list-item-title>
-                    </v-list-item>
-                    <v-list-item @click="selectMenuItem('交易流水查询')" link>
-                        <v-list-item-title>交易流水查询</v-list-item-title>
-                    </v-list-item>
-                    <v-list-item disabled link>
-                        <v-list-item-title>客户管理</v-list-item-title>
-                    </v-list-item>
-                </v-list>
-            </v-menu>
-            <v-menu offset-x>
-                <template v-slot:activator="{ attrs, on }">
-                    <v-btn icon :color="itemColor" class="my-1" v-bind="attrs" v-on="on">
-                        <v-icon>{{ listItems[1].icon }}</v-icon>
-                    </v-btn>
-                </template>
-
-                <v-list>
-                    <v-list-item disabled v-for="(subItem, subIndex) in listItems[1].subItems" :key="subIndex" link>
-                        <v-list-item-title>{{ subItem }}</v-list-item-title>
-                    </v-list-item>
-                    <v-list-item @click="selectMenuItem('购买产品')" link>
-                        <v-list-item-title>购买产品</v-list-item-title>
-                    </v-list-item>
-                    <v-list-item @click="selectMenuItem('产品支取')" link>
-                        <v-list-item-title>产品支取</v-list-item-title>
-                    </v-list-item>
-                </v-list>
-            </v-menu>
-            <v-menu offset-x>
-                <template v-slot:activator="{ attrs, on }">
-                    <v-btn icon :color="itemColor" class="my-1" v-bind="attrs" v-on="on">
-                        <v-icon>{{ listItems[2].icon }}</v-icon>
-                    </v-btn>
-                </template>
-
-                <v-list>
-                    <v-list-item disabled v-for="(item, subIndex) in listItems[2].subItems" :key="subIndex" link>
-                        <v-list-item-title>{{ item }}</v-list-item-title>
-                    </v-list-item>
-                    <v-list-item @click="selectMenuItem('贷款账户管理')" link>
-                        <v-list-item-title>贷款账户管理</v-list-item-title>
-                    </v-list-item>
-                    <v-list-item @click="selectMenuItem('贷款日终批量')" link>
-                        <v-list-item-title>贷款日终批量</v-list-item-title>
-                    </v-list-item>
-                    <v-list-item disabled link>
-                        <v-list-item-title>贷款核销</v-list-item-title>
-                    </v-list-item>
-                    <v-list-item disabled link>
-                        <v-list-item-title>贷款计提</v-list-item-title>
-                    </v-list-item>
-                    <v-list-item disabled link>
-                        <v-list-item-title>贷款产品</v-list-item-title>
-                    </v-list-item>
-                </v-list>
-            </v-menu>
-            <v-menu offset-x>
-                <template v-slot:activator="{ attrs, on }">
-                    <v-btn icon :color="itemColor" class="my-1" v-bind="attrs" v-on="on">
-                        <v-icon>{{ listItems[3].icon }}</v-icon>
-                    </v-btn>
-                </template>
-
-                <v-list>
-                    <v-list-item disabled v-for="(item, subIndex) in listItems[3].subItems" :key="subIndex" link>
-                        <v-list-item-title v-text="item"></v-list-item-title>
-                    </v-list-item>
-                </v-list>
-            </v-menu>
-        </v-main>
+                    </v-list>
+                </v-menu>
+            </v-main>
+        </transition>
     </div>
 </template>
 
