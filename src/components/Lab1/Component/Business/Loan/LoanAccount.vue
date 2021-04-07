@@ -3,6 +3,7 @@
         <transition name="el-fade-in" mode="out-in">
             <!--账户管理-->
             <v-container v-if="!detailShow" class="d-flex flex-column justify-start align-center" fluid style="">
+<!--            <v-container class="d-flex flex-column justify-start align-center" fluid style="">-->
                 <v-row style="width: 100%">
                     <v-col xs="12" sm="6" md="6" lg="3" cols="12">
                         <v-text-field color="green darken-3" dense outlined clearable label="借据号" v-model="form.jjh"></v-text-field>
@@ -14,7 +15,7 @@
                         <v-select menu-props="auto" color="green darken-3" outlined item-text="state" item-value="num" :items="items" label="贷款状态" v-model="form.dkzt" dense></v-select>
                     </v-col>
                     <v-col xs="12" sm="6" md="6" lg="3" cols="12">
-                        <v-btn dark color="green darken-3">
+                        <v-btn @click="searchAccont" dark color="green darken-3">
                             <!--                    <v-icon left>mdi-magnify</v-icon>-->
                             搜索
                         </v-btn>
@@ -39,22 +40,20 @@
 
 <!--                {{flag}}{{dialogRepay}}-->
             </v-container>
+
             <!--账单详情-->
+<!--            <LoanBillDetail @sendShow="getShow" :detailShow="detailShow" :currentItem="currentBillItem" />-->
             <LoanBillDetail @sendShow="getShow" :detailShow="detailShow" v-else :currentItem="currentBillItem" />
         </transition>
 
-        <transition name="el-fade-in">
 
-        </transition>
-
-
-    <!--贷款详情弹窗-->
+        <!--贷款详情弹窗-->
         <v-dialog transition="dialog-bottom-transition" v-model="dialogLoanDetail" max-width="900px">
             <v-card>
                 <v-toolbar class="headline d-flex flex-row justify-center" color="green" dark><div>贷款详情</div></v-toolbar>
 
                 <v-row style="margin: 0">
-                    <v-col cols="12" xs="6" sm="6" md="6" lg="6" class="px-5 d-flex flex-row" style="" v-for="(item, index) in loanDetails" :key="index">
+                    <v-col cols="12" xs="6" sm="6" md="6" lg="6" class="px-5 pt-5 d-flex flex-row" style="" v-for="(item, index) in loanDetails" :key="index">
                         <div class="text-center" style="width: 45%; color: #777777">{{item.text}}</div>
                         <div style="width: 55%">{{currentLoanItem[item.value]}}</div>
                     </v-col>
@@ -63,15 +62,13 @@
 
                 <v-card-actions>
                     <v-spacer></v-spacer>
-    <!--                    <v-btn color="green darken-3" text @click="closeDelete">Cancel</v-btn>-->
                     <v-btn color="green darken-3" text @click="dialogLoanDetail = false">关闭</v-btn>
-    <!--                    <v-spacer></v-spacer>-->
                 </v-card-actions>
             </v-card>
         </v-dialog>
 
-        <!--提前还款弹窗-->
-        <v-form lazy-validation ref="repayForm" v-model="repayValid">
+    <!--提前还款弹窗-->
+    <v-form lazy-validation ref="repayForm" v-model="repayValid">
     <v-dialog transition="dialog-bottom-transition" v-model="dialogRepay" max-width="700px">
         <v-card>
             <v-toolbar class="headline d-flex flex-row justify-center" color="green" dark><div>提前还款</div></v-toolbar>
@@ -82,29 +79,36 @@
                         <div style="width: 55%">{{currentRepayItem[item.value]}}</div>
                     </v-col>
 
+                    <v-col cols="12" xs="6" sm="6" md="6" lg="6" class="px-5 d-flex flex-row">
+                        <v-select menu-props="auto" :rules="repayFormRules.kkfs" color="green darken-3" outlined item-text="state" item-value="num" :items="repaySelectors.kkfs" label="扣款方式" v-model="repayForm.kkfs" dense></v-select>
+                    </v-col>
 
-                        <v-col cols="12" xs="6" sm="6" md="6" lg="6" class="px-5 d-flex flex-row">
-                            <v-select menu-props="auto" :rules="repayFormRules.kkfs" color="green darken-3" outlined item-text="state" item-value="num" :items="repaySelectors.kkfs" label="扣款方式" v-model="repayForm.kkfs" dense></v-select>
-                        </v-col>
-
-                        <v-col cols="12" xs="6" sm="6" md="6" lg="6" class="px-5 d-flex flex-row">
-                            <v-select menu-props="auto" :rules="repayFormRules.jydm" color="green darken-3" outlined item-text="state" item-value="num" :items="repaySelectors.jydm" label="交易代码" v-model="repayForm.jydm" dense></v-select>
-                        </v-col>
-
+                    <v-col cols="12" xs="6" sm="6" md="6" lg="6" class="px-5 d-flex flex-row">
+                        <v-select menu-props="auto" :rules="repayFormRules.jydm" color="green darken-3" outlined item-text="state" item-value="num" :items="repaySelectors.jydm" label="交易代码" v-model="repayForm.jydm" dense></v-select>
+                    </v-col>
                 </v-row>
 
 
                 <v-card-actions>
+                    <v-btn color="green darken-3" text @click="clearRepayForm">清空</v-btn>
                     <v-spacer></v-spacer>
-                    <!--                    <v-btn color="green darken-3" text @click="closeDelete">Cancel</v-btn>-->
-                    <v-btn color="green darken-3" text @click="dialogRepay = false">关闭</v-btn>
+                    <v-btn color="green darken-3" text @click="dialogRepay = false">取消</v-btn>
                     <v-btn text :disabled="!repayValid" color="green darken-3" @click="repayHandler">还款</v-btn>
-                    <!--                    <v-spacer></v-spacer>-->
                 </v-card-actions>
 
         </v-card>
     </v-dialog>
     </v-form>
+
+    <!--还款等待条-->
+    <v-dialog v-model="payProgress" hide-overlay persistent width="300">
+        <v-card color="green darken-1" dark>
+            <v-card-text>
+                正在提交还款
+                <v-progress-linear indeterminate color="white" class="mb-0"></v-progress-linear>
+            </v-card-text>
+        </v-card>
+    </v-dialog>
     </v-container>
 </template>
 
@@ -117,19 +121,20 @@
             page: function (val) {
                 this.nextPage(val);
             },
-            dialog (val) {
-                val || this.close()
-            },
-            dialogDelete (val) {
-                val || this.closeDelete()
+            payProgress (val) {
+                if (val) {
+                    setTimeout(() => (this.payProgress = false), 2000)
+                }
             },
         },
         data() {
             return {
+                payProgress: false,
+
                 currentBillItem: '',
                 currentLoanItem: '',
                 currentRepayItem: '',
-                detailShow: true,
+                detailShow: false,
                 dialogLoanDetail: false,
                 dialogRepay: false,
                 repayValid: false,
@@ -146,8 +151,6 @@
                     { state: '异常', num: 3, },
                 ],
 
-                dialog: false,
-                dialogDelete: false,
                 headers: [
                     { text: '借据号', value: 'jjh', sortable: false, align: 'center' },
                     { text: '客户号', value: 'khh', sortable: false, align: 'center' },
@@ -217,6 +220,8 @@
                     dkzt: ''
                 },
 
+                submittedForm: '',
+
             };
         },
 
@@ -259,6 +264,34 @@
                         ghbj: '18363.6656',
                         ghzje: '20435.9328',
                     },
+                    {
+                        jjh: 'L1',
+                        htbh: '23423423',
+                        jgbh: 'fd11',
+                        khh: 'fd11202103302',
+                        dkzh: '6161677317895733644',
+                        dkcpbh: '40001',
+                        dkffrq: '2021-04-02',
+                        dkhb: '人民币',
+                        dkxgfy: '1元',
+                        hkfs: '等额本息',
+                        dkqx: '1',
+                        nll: '4%',
+                        htje: '10000',
+                        yhze: '10033.33',
+                        yhlx: '33.33',
+                        yhlxx: '33.33',
+                        sybj: '0',
+                        yqbj: '0',
+                        jqzt: '已结清',
+                        hxzt: '未核销',
+                        khm: '贺老师',
+                        dkzt: '正常',
+                        dkcp: '个体贡桑',
+                        yqje: '0',
+                        ghbj: '18363.6656',
+                        ghzje: '20435.9328',
+                    },
                 ]
             },
 
@@ -268,19 +301,19 @@
                 this.flag = !this.flag;
             },
 
-            //Todo 展示账单详情页
+            //展示账单详情页
             checkBillDetail (item) {
                 this.currentBillItem = item;
                 this.detailShow = !this.detailShow;
             },
 
-            //Todo 展示贷款详情对话框
+            //展示贷款详情对话框
             checkLoanDetail (item) {
                 this.currentLoanItem = item;
                 this.dialogLoanDetail = !this.dialogLoanDetail;
             },
 
-            //Todo 展示提前还款对话框
+            //展示提前还款对话框
             repayAll (item) {
                 this.currentRepayItem = item;
                 this.repayValid = false;
@@ -290,11 +323,28 @@
 
             //Todo 提前还款
             repayHandler () {
-                this.$refs.repayForm.validate();
+                if (this.$refs.repayForm.validate()) {
+                    this.payProgress = true;
+
+                  this.$notify({
+                    title: '还款失败，请重试',
+                    type: 'error'
+                  });
+                }
             },
 
             getShow(message) {
                 this.detailShow = message;
+            },
+
+            clearRepayForm () {
+                this.$refs.repayForm.reset();
+            },
+
+            //搜索提交
+            searchAccount () {
+                this.submittedForm = this.form;
+                this.nextPage(1);
             },
         }
     }
