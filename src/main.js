@@ -8,13 +8,25 @@ import store from './store'
 
 Vue.use(ElementUI);
 
+// import axios from 'axios';
+// axios.defaults.baseURL = "http://localhost:3000/users/"; // 关键步骤–填写后台请求统一的地址
+// axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
+// Vue.config.productionTip = false;
+// Vue.prototype.$addr = axios;
+
+import axios from 'axios'; //引入
+
+//Vue.use(axios) axios不能用use 只能修改原型链
+// Vue.prototype.$axios = axios
+
 //axios 配置
-var axios = require('axios')
+// var axios = require('axios')
 // Axios挂载到prototype，全局可以使用this.$axios访问
 Vue.prototype.$axios = axios
 axios.defaults.timeout = 50000   //设置超时时间
-axios.defaults.baseURL = '/api'
-axios.defaults.withCredentials = true
+axios.defaults.baseURL = 'http://localhost:8080'
+// axios.defaults.baseURL = '/api'
+axios.defaults.withCredentials = false;
 //axios.defaults.headers.post['Content-Type'] = "multipart/form-data";
 
 Vue.config.productionTip = false

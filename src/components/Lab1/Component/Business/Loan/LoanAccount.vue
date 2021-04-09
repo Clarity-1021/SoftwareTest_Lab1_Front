@@ -1,40 +1,34 @@
 <template>
-    <v-container class="d-flex flex-column justify-start align-center" fluid style="">
+    <v-container class="d-flex flex-column justify-start align-center" fluid>
         <transition name="el-fade-in" mode="out-in">
             <!--账户管理-->
             <v-container v-if="!detailShow" class="d-flex flex-column justify-start align-center" fluid style="">
 <!--            <v-container class="d-flex flex-column justify-start align-center" fluid style="">-->
                 <v-row style="width: 100%">
-                    <v-col xs="12" sm="6" md="6" lg="3" cols="12">
-                        <v-text-field color="green darken-3" dense outlined clearable label="借据号" v-model="form.jjh"></v-text-field>
+                    <v-col xs="12" sm="4" md="4" lg="3" cols="12">
+                        <v-text-field color="green darken-3" dense outlined clearable label="客户证件号" v-model="form.khh"></v-text-field>
                     </v-col>
-                    <v-col xs="12" sm="6" md="6" lg="3" cols="12">
-                        <v-text-field color="green darken-3" dense outlined clearable label="客户号" v-model="form.khh"></v-text-field>
+                    <v-col xs="12" sm="4" md="4" lg="3" cols="12">
+                        <v-select clearable menu-props="auto" color="green darken-3" outlined item-text="state" item-value="num" :items="items" label="账单情况" v-model="form.dkzt" dense></v-select>
                     </v-col>
-                    <v-col xs="12" sm="6" md="6" lg="3" cols="12">
-                        <v-select menu-props="auto" color="green darken-3" outlined item-text="state" item-value="num" :items="items" label="贷款状态" v-model="form.dkzt" dense></v-select>
-                    </v-col>
-                    <v-col xs="12" sm="6" md="6" lg="3" cols="12">
-                        <v-btn @click="searchAccont" dark color="green darken-3">
-                            <!--                    <v-icon left>mdi-magnify</v-icon>-->
-                            搜索
-                        </v-btn>
+                    <v-col xs="12" sm="4" md="4" lg="3" cols="12">
+                        <v-btn @click="searchAccount" :loading="progressSearch" dark color="green darken-3">搜索</v-btn>
                     </v-col>
                 </v-row>
 
-
-
-                <div style="width: 100%">
-                    <v-data-table hide-default-footer :headers="headers" :items="tableData" class="elevation-1">
+                <div style="width: 100%; min-width: 950px">
+                    <v-progress-linear :active="progressSearch" dark color="green" indeterminate height="5"></v-progress-linear>
+                    <v-data-table sort-by="loanDate" sort-desc :headers="headers" :items="tableData" :page.sync="page" :items-per-page="itemsPerPage" hide-default-footer class="elevation-1" @page-count="pageCount = $event">
                         <!--操作栏-->
                         <template v-slot:item.cz="{ item }">
                             <v-icon title="查看账单" color="green darken-3" small class="mx-1" @click="checkBillDetail(item)">mdi-clipboard-text-search-outline</v-icon>
-                            <v-icon small title="贷款详情" color="green darken-3" class="mx-1" @click="checkLoanDetail(item)">mdi-clipboard-text-outline</v-icon>
-                            <v-icon :disabled="flag" small title="提前还款" color="green darken-3" class="mx-1" @click="repayAll(item)">mdi-clipboard-check-multiple-outline</v-icon>
+<!--                            <v-icon small title="贷款详情" color="green darken-3" class="mx-1" @click="checkLoanDetail(item)">mdi-clipboard-text-outline</v-icon>-->
+                            <v-icon :disabled="item.loanStatus === '未发放' || item.loanSettleStatus === 2" small title="提前还款" color="green darken-3" class="mx-1" @click="repayAll(item)">mdi-clipboard-check-multiple-outline</v-icon>
                         </template>
                     </v-data-table>
                 </div>
                 <div class="mt-3">
+
                     <v-pagination color="green darken-3" v-model="page" :length="pageCount" :total-visible="10"></v-pagination>
                 </div>
 
@@ -43,29 +37,10 @@
 
             <!--账单详情-->
 <!--            <LoanBillDetail @sendShow="getShow" :detailShow="detailShow" :currentItem="currentBillItem" />-->
-            <LoanBillDetail @sendShow="getShow" :detailShow="detailShow" v-else :currentItem="currentBillItem" />
+            <LoanBillDetail @penaltyChange="searchAccount" @sendShow="getShow" :detailShow="detailShow" v-else :currentItem="currentBillItem" />
         </transition>
 
 
-        <!--贷款详情弹窗-->
-        <v-dialog transition="dialog-bottom-transition" v-model="dialogLoanDetail" max-width="900px">
-            <v-card>
-                <v-toolbar class="headline d-flex flex-row justify-center" color="green" dark><div>贷款详情</div></v-toolbar>
-
-                <v-row style="margin: 0">
-                    <v-col cols="12" xs="6" sm="6" md="6" lg="6" class="px-5 pt-5 d-flex flex-row" style="" v-for="(item, index) in loanDetails" :key="index">
-                        <div class="text-center" style="width: 45%; color: #777777">{{item.text}}</div>
-                        <div style="width: 55%">{{currentLoanItem[item.value]}}</div>
-                    </v-col>
-                </v-row>
-
-
-                <v-card-actions>
-                    <v-spacer></v-spacer>
-                    <v-btn color="green darken-3" text @click="dialogLoanDetail = false">关闭</v-btn>
-                </v-card-actions>
-            </v-card>
-        </v-dialog>
 
     <!--提前还款弹窗-->
     <v-form lazy-validation ref="repayForm" v-model="repayValid">
@@ -109,6 +84,27 @@
             </v-card-text>
         </v-card>
     </v-dialog>
+
+        <!--贷款详情弹窗-->
+<!--        <v-dialog transition="dialog-bottom-transition" v-model="dialogLoanDetail" max-width="900px">-->
+<!--            <v-card>-->
+<!--                <v-toolbar class="headline d-flex flex-row justify-center" color="green" dark><div>贷款详情</div></v-toolbar>-->
+
+<!--                <v-row style="margin: 0">-->
+<!--                    <v-col cols="12" xs="6" sm="6" md="6" lg="6" class="px-5 pt-5 d-flex flex-row" style="" v-for="(item, index) in loanDetails" :key="index">-->
+<!--                        <div class="text-center" style="width: 45%; color: #777777">{{item.text}}</div>-->
+<!--                        <div style="width: 55%">{{currentLoanItem[item.value]}}</div>-->
+<!--                    </v-col>-->
+<!--                </v-row>-->
+
+
+<!--                <v-card-actions>-->
+<!--                    <v-spacer></v-spacer>-->
+<!--                    <v-btn color="green darken-3" text @click="dialogLoanDetail = false">关闭</v-btn>-->
+<!--                </v-card-actions>-->
+<!--            </v-card>-->
+<!--        </v-dialog>-->
+
     </v-container>
 </template>
 
@@ -118,9 +114,6 @@
         name: "LoanAccount",
         components: {LoanBillDetail},
         watch: {
-            page: function (val) {
-                this.nextPage(val);
-            },
             payProgress (val) {
                 if (val) {
                     setTimeout(() => (this.payProgress = false), 2000)
@@ -130,38 +123,32 @@
         data() {
             return {
                 payProgress: false,
+                progressSearch: false,
 
                 currentBillItem: '',
                 currentLoanItem: '',
                 currentRepayItem: '',
                 detailShow: false,
-                dialogLoanDetail: false,
+                // dialogLoanDetail: false,
                 dialogRepay: false,
                 repayValid: false,
 
                 page: 1,
-                pageCount: 10,
+                pageCount: 0,
                 itemsPerPage: 10,
                 flag: true,
 
                 items: [
-                    { state: '未发放', num: 0, },
-                    { state: '正常', num: 1, },
-                    { state: '损失', num: 2, },
-                    { state: '异常', num: 3, },
+                    { state: '未还', num: 1, },
+                    { state: '已还', num: 2, },
                 ],
+                numToLoanStatus: {
+                    "1": "未发放",
+                    "2": "正常",
+                    "3": "损失",
+                    "4": "异常",
+                },
 
-                headers: [
-                    { text: '借据号', value: 'jjh', sortable: false, align: 'center' },
-                    { text: '客户号', value: 'khh', sortable: false, align: 'center' },
-                    { text: '客户名', value: 'khm', sortable: false, align: 'center' },
-                    { text: '贷款状态', value: 'dkzt', sortable: false, align: 'center' },
-                    { text: '贷款产品', value: 'dkcp', sortable: false, align: 'center' },
-                    { text: '贷款产品编号', value: 'dkcpbh', sortable: false, align: 'center' },
-                    { text: '逾期金额（元）', value: 'yqje', sortable: false, align: 'center' },
-                    { text: '发放日期', value: 'dkffrq', sortable: false, align: 'center' },
-                    { text: '操作', value: 'cz', sortable: false, align: 'center' },
-                ],
                 loanDetails: [
                     { text: '借据号', value: 'jjh' },
                     { text: '合同编号', value: 'htbh' },
@@ -221,84 +208,57 @@
                 },
 
                 submittedForm: '',
-
+                headers: [
+                    { text: '借据号', value: 'iouNum', sortable: false, align: 'center' },
+                    { text: '客户号', value: 'customerCode', sortable: false, align: 'center' },
+                    { text: '客户名', value: 'customerName', sortable: false, align: 'center' },
+                    { text: '贷款状态', value: 'loanStatus', sortable: false, align: 'center' },
+                    { text: '贷款产品', value: 'productName', sortable: false, align: 'center' },
+                    { text: '贷款产品编号', value: 'productCode', sortable: false, align: 'center' },
+                    { text: '逾期金额（元）', value: 'overdueBalance', sortable: false, align: 'center' },
+                    { text: '发放日期', value: 'loanDate', align: 'center' },
+                    { text: '操作', value: 'cz', sortable: false, align: 'center' },
+                ],
             };
-        },
 
+        },
         computed: {
 
         },
-
         created () {
-            this.initialize()
+            this.initialize();
         },
-
         methods: {
             initialize () {
-                this.tableData = [
-                    {
-                        jjh: 'L2104021935051',
-                        htbh: '23423423',
-                        jgbh: 'fd11',
-                        khh: 'fd11202103302',
-                        dkzh: '6161677317895733644',
-                        dkcpbh: '40001',
-                        dkffrq: '2021-04-02',
-                        dkhb: '人民币',
-                        dkxgfy: '1元',
-                        hkfs: '等额本息',
-                        dkqx: '1',
-                        nll: '4%',
-                        htje: '10000',
-                        yhze: '10033.33',
-                        yhlx: '33.33',
-                        yhlxx: '33.33',
-                        sybj: '0',
-                        yqbj: '0',
-                        jqzt: '已结清',
-                        hxzt: '未核销',
-                        khm: '贺老师',
-                        dkzt: '正常',
-                        dkcp: '个体贡桑',
-                        yqje: '0',
-                        ghbj: '18363.6656',
-                        ghzje: '20435.9328',
-                    },
-                    {
-                        jjh: 'L1',
-                        htbh: '23423423',
-                        jgbh: 'fd11',
-                        khh: 'fd11202103302',
-                        dkzh: '6161677317895733644',
-                        dkcpbh: '40001',
-                        dkffrq: '2021-04-02',
-                        dkhb: '人民币',
-                        dkxgfy: '1元',
-                        hkfs: '等额本息',
-                        dkqx: '1',
-                        nll: '4%',
-                        htje: '10000',
-                        yhze: '10033.33',
-                        yhlx: '33.33',
-                        yhlxx: '33.33',
-                        sybj: '0',
-                        yqbj: '0',
-                        jqzt: '已结清',
-                        hxzt: '未核销',
-                        khm: '贺老师',
-                        dkzt: '正常',
-                        dkcp: '个体贡桑',
-                        yqje: '0',
-                        ghbj: '18363.6656',
-                        ghzje: '20435.9328',
-                    },
-                ]
+                this.search("", "");
             },
 
-            //Todo 换页
-            nextPage (page) {
-                console.log(page);
-                this.flag = !this.flag;
+            search (id, status) {
+                this.progressSearch = true;
+                this.$axios.post(
+                    '/loan/bill',
+                    {},
+                    {
+                        params:{
+                            IDNumber: id,
+                            loanSettleStatus: status
+                        }
+                    }
+                )
+                    .then(resp => {
+                        if (resp.data.code === "200") {
+                            this.tableData = resp.data.data.result.map((item) => {
+                                item.loanStatus = this.numToLoanStatus[item.loanStatus];
+                                return item;
+
+                            });
+                        }
+                        this.progressSearch = false;
+                    })
+                    .catch(error => {
+                        console.log(error);
+                    });
+
             },
 
             //展示账单详情页
@@ -326,10 +286,10 @@
                 if (this.$refs.repayForm.validate()) {
                     this.payProgress = true;
 
-                  this.$notify({
-                    title: '还款失败，请重试',
-                    type: 'error'
-                  });
+                    this.$notify({
+                        title: '还款失败，请重试',
+                        type: 'error'
+                    });
                 }
             },
 
@@ -341,10 +301,9 @@
                 this.$refs.repayForm.reset();
             },
 
-            //搜索提交
+            // 搜索提交
             searchAccount () {
-                this.submittedForm = this.form;
-                this.nextPage(1);
+                this.search(this.form.khh, this.form.dkzt);
             },
         }
     }
