@@ -11,6 +11,7 @@ import WithdrawInAdvance from "../components/Lab1/WithdrawInAdvance";
 import BuyProducts from "../components/Lab1/BuyProducts";
 import Bill from "../components/Lab1/Bill";
 import DayEndBatch from "../components/Lab1/DayEndBatch";
+import PublicTradeWater from "../components/Lab1/Component/Business/Public/PublicTradeWater";
 
 
 Vue.use(Router);
@@ -68,6 +69,11 @@ const routes = [
       requireAuth: true // 需要登录权限
     }
   },
+  {
+    path:'/PublicTradeWater',
+    name:'PublicTradeWater',
+    component:PublicTradeWater,
+  }
 ]
 
 export const router = new VueRouter({

@@ -5,13 +5,25 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "dev": "vue-cli-service serve",
+    "build:prod": "vue-cli-service build",
+    "build:stage": "vue-cli-service build --mode staging",
+    "preview": "node build/index.js --preview",
+    "test:unit": "jest --clearCache && vue-cli-service test:unit",
+    "test:ci": "npm run lint && npm run test:unit",
+    "svgo": "svgo -f src/icons/svg --config=src/icons/svgo.yml",
+    "new": "plop"
   },
   "dependencies": {
     "axios": "^0.21.1",
     "core-js": "^3.6.5",
+    "echarts": "^4.9.0",
     "element-ui": "^2.15.1",
+    "v-charts": "^1.19.0",
     "vue": "^2.6.11",
+    "vue-axios": "^3.2.4",
+    "vue-echarts": "^6.0.0-rc.4",
     "vue-router": "^3.5.1",
     "vuetify": "^2.4.0",
     "vuex": "^3.6.2"

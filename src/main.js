@@ -3,18 +3,25 @@ import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 import App from './App.vue';
 import vuetify from './plugins/vuetify';
-import {router} from './router'
+import { router } from './router'
 import store from './store'
+import axios from 'axios'
 
+import VCharts from 'v-charts'
+Vue.use(VCharts)
 Vue.use(ElementUI);
 
+import VueAxios from 'vue-axios'
+Vue.use(VueAxios, axios)
+
 //axios 配置
-var axios = require('axios')
+//var axios = require('axios')
 // Axios挂载到prototype，全局可以使用this.$axios访问
-Vue.prototype.$axios = axios
-axios.defaults.timeout = 50000   //设置超时时间
-axios.defaults.baseURL = '/api'
-axios.defaults.withCredentials = true
+//Vue.prototype.$axios = axios
+//axios.defaults.timeout = 50000   //设置超时时间
+//axios.defaults.baseURL = '/api'
+//axios.defaults.withCredentials = true
+
 //axios.defaults.headers.post['Content-Type'] = "multipart/form-data";
 
 Vue.config.productionTip = false
