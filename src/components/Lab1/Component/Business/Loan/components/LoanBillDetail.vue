@@ -295,10 +295,9 @@
             getInfo () {
                 // this.currentItem.penalty = 1;
                 // 获取item的贷款详情
-                console.log("2=" + this.currentItem.iouNum)
                 this.$axios.post(
                     '/plan/planDetail',
-                    // {},
+                    {},
                     {
                         params:{
                             // iouNum: "L2104071909521",
@@ -317,7 +316,7 @@
                     });
                 this.$axios.post(
                     '/plan/planDetail',
-                    // {},
+                    {},
                     {
                         params:{
                             // iouNum: "L2104071909521",
@@ -335,7 +334,7 @@
                     });
                 this.$axios.post(
                     '/plan/planDetail',
-                    // {},
+                    {},
                     {
                         params:{
                             // iouNum: "L2104071909521",
@@ -381,7 +380,7 @@
                 && this.currentRepayItem.remainAmount === this.currentRepayItem.planAmount) {
                     this.$axios.post(
                         '/plan/repayAll',
-                        // {},
+                        {},
                         {
                             params:{
                                 compoundInterest: this.currentRepayItem.compoundInterest,
@@ -433,7 +432,7 @@
                 else {//部分还款
                     this.$axios.post(
                         '/plan/repayPart',
-                        // {},
+                        {},
                         {
                             params:{
                                 currentDate: this.getNowFormatDate(),
@@ -489,7 +488,7 @@
                 // }, 2000);
                 this.$axios.post(
                     '/penalty/repay',
-                    // {},
+                    {},
                     {
                         params:{
                             amount: this.currentItem.penalty,
