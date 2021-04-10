@@ -15,6 +15,37 @@ export default {
         columns: ["日期", "当日总金额"],
         rows: [],
       },
+
+        xAxis: {
+          axisLabel: {
+            interval: 0,
+            formatter: function (value) {
+              return value.split("").join("\n");
+            },
+          },
+        },
+        series: [
+          {
+
+            itemStyle: {
+              normal: {
+                color: (params)=> {
+                  var colorList = [
+                    "#65d186",
+                    "#f67287",
+                    "#f29e3c",
+                    "#c05bdd",
+                    "#f29e3c",
+                    "#7a65f2",
+                    "#65d186",
+                    "#f67287",
+                  ];
+                  return colorList[params.dataIndex];
+                },
+              },
+            },
+          },
+        ],
     };
   },
   mounted() {

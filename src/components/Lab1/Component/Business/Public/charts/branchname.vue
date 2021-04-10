@@ -2,7 +2,7 @@
   <el-main>
     <h3>交易机构分布</h3>
 
-    <ve-pie :data="chartData" :extend="chartExtend"></ve-pie>
+    <ve-pie  :data="chartData" :extend="chartExtend"></ve-pie>
   </el-main>
 </template>
 
@@ -11,11 +11,14 @@ export default {
   props: ["table"],
   data() {
     return {
+     
       chartData: {
         columns: ["机构名称", "数量"],
         rows: [],
       },
-      chartExtend: {},
+      chartExtend: {
+
+      },
     };
   },
   mounted() {

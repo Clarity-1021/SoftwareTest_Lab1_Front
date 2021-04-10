@@ -65,7 +65,7 @@
       >
     </el-form>
 
-    <el-table :data="table" style="width: 100%">
+    <el-table :data="table" style="width: 100%" height="400">
       <el-table-column prop="transactionNum" label="流水号"></el-table-column>
       <el-table-column prop="account" label="交易账号"></el-table-column>
       <el-table-column prop="amount" label="金额"> </el-table-column>
@@ -84,9 +84,9 @@
 
     <!--可视化-->
     <el-dialog :visible.sync="chart1Visible">
-        <amountdate :table="this.table"></amountdate>
-        <branchname :table="this.table"></branchname>
-        <transtype :table="this.table"></transtype>
+      <amountdate :table="this.table"></amountdate>
+      <branchname :table="this.table"></branchname>
+      <transtype :table="this.table"></transtype>
     </el-dialog>
   </el-main>
 </template>

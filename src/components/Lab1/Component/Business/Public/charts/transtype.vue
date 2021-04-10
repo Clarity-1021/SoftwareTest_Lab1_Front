@@ -2,8 +2,8 @@
   <el-main>
     <h3>交易类型分布</h3>
 
-   <ve-pie :data="chartData" :extend="chartExtend"></ve-pie>
-     <!--<ve-histogram :data="chartData" :extend="chartExtend"></ve-histogram>-->
+    <!--  <ve-pie :data="chartData" :extend="chartExtend"></ve-pie>-->
+    <ve-histogram :data="chartData" :extend="chartExtend"></ve-histogram>
   </el-main>
 </template>
 
@@ -16,7 +16,39 @@ export default {
         columns: ["交易类型", "数量"],
         rows: [],
       },
-      chartExtend: {},
+      chartExtend: {
+        xAxis: {
+          axisLabel: {
+            interval: 0,
+            formatter: function (value) {
+              return value.split("").join("\n");
+            },
+          },
+        },
+        series: [
+          {
+      center: ['50%', '50%'],
+
+            itemStyle: {
+              normal: {
+                color: (params)=> {
+                  var colorList = [
+                    "#65d186",
+                    "#f67287",
+                    "#f29e3c",
+                    "#c05bdd",
+                    "#f29e3c",
+                    "#7a65f2",
+                    "#65d186",
+                    "#f67287",
+                  ];
+                  return colorList[params.dataIndex];
+                },
+              },
+            },
+          },
+        ],
+      },
     };
   },
   mounted() {
@@ -29,7 +61,7 @@ export default {
 
       for (var i in tableData) {
         var type = tableData[i].transactionType;
-
+        if (type == null) type = "其他";
         if (Data[type] == null) {
           Data[type] = 1;
         } else Data[type]++;
