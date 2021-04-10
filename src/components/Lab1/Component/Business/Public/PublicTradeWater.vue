@@ -24,8 +24,8 @@
 
       <el-row
         ><el-col span="12">
-          <el-form-item prop="" label="办理机构">
-            <el-input v-model="form.branchName"></el-input
+          <el-form-item prop="" label="办理机构代号">
+            <el-input v-model="form.branchNum"></el-input
           ></el-form-item>
         </el-col>
         <el-col span="12">
