@@ -19,11 +19,7 @@
     "core-js": "^3.6.5",
     "echarts": "^4.9.0",
     "element-ui": "^2.15.1",
-<<<<<<< HEAD
     "v-charts": "^1.19.0",
-=======
-    "vee-validate": "^3.4.5",
->>>>>>> a6b022848e5c314ea60e8391cdda63c6ee6a8795
     "vue": "^2.6.11",
     "vue-axios": "^3.2.4",
     "vue-echarts": "^6.0.0-rc.4",

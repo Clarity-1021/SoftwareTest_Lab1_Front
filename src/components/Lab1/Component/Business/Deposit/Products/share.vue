@@ -1,35 +1,41 @@
-<!--股票，等级2，3不可购买-->
+<!--股票，等级1可购买-->
 <template>
   <el-form
     class="form"
     ref="form"
     :model="form"
+    :rules="rules"
     label-position="left"
-    style="width:500px"
+    style="width: 500px"
   >
-    <el-form-item label="客户身份证号:">
-      <el-input v-model="form.idNum" style="width:300px"></el-input>
+    <el-form-item prop="idNum" label="客户身份证号:">
+      <el-input v-model="form.idNum" style="width: 300px"></el-input>
     </el-form-item>
-    <el-form-item label="输入付款账户:">
-      <el-input v-model="form.accountNum" style="width:300px"></el-input>
+    <el-form-item prop="accountNum" label="输入付款账户:">
+      <el-input v-model="form.accountNum" style="width: 300px"></el-input>
     </el-form-item>
-     <el-form-item label="输入账户密码:">
-      <el-input v-model="form.password" style="width:300px"></el-input>
+    <el-form-item prop="password" label="输入账户密码:">
+      <el-input
+        v-model="form.password"
+        style="width: 300px"
+        type="password"
+      ></el-input>
     </el-form-item>
-    <el-form-item label="选择股票类型:">
-      <el-select v-model="form.type" placeholder="请选择产品" clearable>
-        <el-option label="股票一 1000元" value="1"></el-option>
-      <!--  <el-option label="股票二 2000元" value="product2"></el-option>-->
+    <el-form-item prop="productId" label="选择股票类型:">
+      <el-select v-model="form.productId" placeholder="请选择产品" clearable>
+        <el-option label="股票一" value="1"></el-option>
       </el-select>
     </el-form-item>
-    <el-form-item label="选择股票数量:">
+    <el-form-item prop="count" label="选择股票数量:">
       <el-input-number
-        v-model="form.num"
+        v-model="form.count"
         :min="1"
-        :max="999"
+        :max="99"
       ></el-input-number>
     </el-form-item>
-    <el-button class="button" @click="getUserRank()">确认购买</el-button>
+
+    <el-button class="button" @click="getUserRank('form')">确认购买</el-button>
+    <el-button class="button" @click="resetForm('form')">重置输入</el-button>
   </el-form>
 </template>
 
@@ -40,50 +46,69 @@ export default {
   data() {
     return {
       rank: "",
+      rules: {
+        idNum: [{ required: true, message: "必填", trigger: "blur" }],
+        accountNum: [{ required: true, message: "必填", trigger: "blur" }],
+        password: [{ required: true, message: "必填", trigger: "blur" }],
+        productId: [{ required: true, message: "必填", trigger: "blur" }],
+        count: [{ required: true, message: "必填", trigger: "blur" }],
+
+        years: [{ required: true, message: "必填", trigger: "blur" }],
+      },
       form: {
         idNum: "",
         accountNum: "",
-        password:"",
-        type: "",
-        num: "",
+        password: "",
+        productId: "",
+        count: "1",
+        years: "0",
       },
     };
   },
 
-  mounted() {
-    //this.post();
-  },
   methods: {
+    resetForm() {
+      this.$refs.form.resetFields();
+    },
     getUserRank() {
-      var url = "http://localhost:8080/user/assess?IDNumber=" + this.form.idNum;
-      axios
-        .post(url)
-        .then((response) => {
-          if (response.data.operate == "failed")
-            return this.$message.error("获取失败");
-          var rank = response.data.data.result;
-          if (rank == 1) this.submitForm();
-          else return this.$message.error("等级不足，无法购买");
-        })
-        .catch((error) => alert(error));
+      this.$refs.form.validate(async (valid) => {
+        if (!valid) return;
+        var url =
+          "http://localhost:8080/user/assess?IDNumber=" + this.form.idNum;
+        axios
+          .post(url)
+          .then((response) => {
+            if (response.data.operate == "failed")
+              return this.$message.error("获取失败");
+            var rank = response.data.data.result;
+            if (rank == 1) this.submitForm();
+            else return this.$message.error("等级不足，无法购买");
+          })
+          .catch((error) => alert(error));
+      });
     },
     submitForm() {
-      var url = "http://localhost:8080/user/assess?IDNumber=" + this.idNum;
+      var url =
+        "http://localhost:8080/order/purchase?accountNum=" +
+        this.form.accountNum +
+        "&password=" +
+        this.form.password +
+        "&productId=" +
+        this.form.productId +
+        "&count=" +
+        this.form.count +
+        "&years=" +
+        this.form.years;
+      //alert(url);
       axios
         .post(url)
         .then((response) => {
           if (response.data.operate == "failed")
-            return this.$message.error("获取失败");
-          this.rank = response.data.data.result;
+            return this.$message.error("购买失败！");
+          return this.$message.success("购买成功！");
         })
         .catch((error) => alert(error));
     },
   },
 };
 </script>
-<style scoped>
-el-form-item{
-    width:300px;
-}
-</style>
-

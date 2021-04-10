@@ -4,9 +4,7 @@
     <el-tabs v-model="activeName" @tab-click="handleClick">
       <el-tab-pane label="股票" name="first"><share></share></el-tab-pane>
 
-      <el-tab-pane label="基金" name="second"
-        ><fund></fund
-      ></el-tab-pane>
+      <el-tab-pane label="基金" name="second"><fund></fund></el-tab-pane>
 
       <el-tab-pane label="定期" name="third"
         ><fixeddeposit></fixeddeposit
@@ -27,8 +25,9 @@ export default {
 
   data() {
     return {
-      num: 1,
+      activeName: "first",
 
+      num: 1,
 
       form: {
         product1: "",
@@ -45,7 +44,6 @@ export default {
     handleChange(value) {
       console.log(value);
     },
-   
   },
 };
 </script>
