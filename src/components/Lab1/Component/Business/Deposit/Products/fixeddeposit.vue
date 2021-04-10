@@ -36,7 +36,6 @@
 </template>
 
 <script>
-import axios from "axios";
 
 export default {
   data() {
@@ -68,9 +67,9 @@ export default {
       this.$refs.form.validate(async (valid) => {
         if (!valid) return;
         var url =
-          "http://localhost:8080/user/assess?IDNumber=" + this.form.idNum;
-        axios
-          .post(url)
+          "/user/assess?IDNumber=" + this.form.idNum;
+        this.$axios
+        .post(url)
           .then((response) => {
             if (response.data.operate == "failed")
               return this.$message.error("获取失败");
@@ -94,7 +93,7 @@ export default {
         "&years=" +
         this.form.years;
       //alert(url);
-      axios
+      this.$axios
         .post(url)
         .then((response) => {
           if (response.data.operate == "failed")

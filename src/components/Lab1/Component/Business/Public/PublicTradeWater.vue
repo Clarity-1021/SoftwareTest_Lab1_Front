@@ -92,7 +92,6 @@
 </template>
 
 <script>
-import axios from "axios";
 import amountdate from "./charts/amountdate";
 import branchname from "./charts/branchname";
 import transtype from "./charts/transtype";
@@ -134,7 +133,7 @@ export default {
     },
 
     post() {
-      var url = "http://localhost:8080/transaction/detail";
+      var url = "/transaction/detail";
       var count = 0;
 
       for (var key in this.form) {
@@ -144,7 +143,7 @@ export default {
         }
       }
       // alert(url);
-      axios
+      this.$axios
         .post(url)
         .then((response) => {
           if (response.data.operate == "failed")
