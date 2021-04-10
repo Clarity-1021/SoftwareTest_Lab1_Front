@@ -1,3 +1,6 @@
+        
+        import VCharts from 'v-charts'
+        Vue.use(VCharts)
         <v-card style="width: 100%" class="mt-5 elevation-0">
             <v-tabs color="green darken-2">
                 <v-tab><v-badge color="green" content="6">

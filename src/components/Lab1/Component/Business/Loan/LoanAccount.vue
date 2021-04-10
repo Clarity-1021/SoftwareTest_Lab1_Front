@@ -84,7 +84,7 @@
             </v-card-text>
         </v-card>
     </v-dialog>
-
+<!--{{this.tableData}}-->
         <!--贷款详情弹窗-->
 <!--        <v-dialog transition="dialog-bottom-transition" v-model="dialogLoanDetail" max-width="900px">-->
 <!--            <v-card>-->
@@ -232,12 +232,24 @@
             initialize () {
                 this.search("", "");
             },
+            setUrl (id, status, url) {
+                if ((id === "" || id === null) && (status === "" || status === null)) return url;
+                url += "?";
+                if ((id === "" || id === null)) url += "IDNumber=" + id;
+                if ((status === "" || status === null)) {
+                    if (id !== "") { url += "&" }
+                    url += "loanSettleStatus=" + status;
+                }
+                return url;
+            },
 
             search (id, status) {
                 this.progressSearch = true;
+                // let url = this.setUrl(id, status, '/loan/bill');
                 this.$axios.post(
+                    // url
                     '/loan/bill',
-                    {},
+                    // {},
                     {
                         params:{
                             IDNumber: id,
@@ -247,11 +259,17 @@
                 )
                     .then(resp => {
                         if (resp.data.code === "200") {
+                            console.log(id)
+                            console.log(status)
+                            // this.tableData = resp;
                             this.tableData = resp.data.data.result.map((item) => {
                                 item.loanStatus = this.numToLoanStatus[item.loanStatus];
                                 return item;
 
                             });
+                        }
+                        else {
+                            console.log("error")
                         }
                         this.progressSearch = false;
                     })

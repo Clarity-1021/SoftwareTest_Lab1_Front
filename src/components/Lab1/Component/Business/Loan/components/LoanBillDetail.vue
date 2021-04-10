@@ -295,9 +295,10 @@
             getInfo () {
                 // this.currentItem.penalty = 1;
                 // 获取item的贷款详情
+                console.log("2=" + this.currentItem.iouNum)
                 this.$axios.post(
                     '/plan/planDetail',
-                    {},
+                    // {},
                     {
                         params:{
                             // iouNum: "L2104071909521",
@@ -307,6 +308,7 @@
                     }
                 )
                     .then(resp => {
+                        console.log("2=" + this.currentItem.iouNum)
                         this.loanDetail.paid = resp.data.data.result;
                         // console.log(this.loanDetail)
                     })
@@ -315,7 +317,7 @@
                     });
                 this.$axios.post(
                     '/plan/planDetail',
-                    {},
+                    // {},
                     {
                         params:{
                             // iouNum: "L2104071909521",
@@ -325,6 +327,7 @@
                     }
                 )
                     .then(resp => {
+                        console.log("3=" + this.currentItem.iouNum)
                         this.loanDetail.unpaid = resp.data.data.result;
                     })
                     .catch(error => {
@@ -332,7 +335,7 @@
                     });
                 this.$axios.post(
                     '/plan/planDetail',
-                    {},
+                    // {},
                     {
                         params:{
                             // iouNum: "L2104071909521",
@@ -342,6 +345,7 @@
                     }
                 )
                     .then(resp => {
+                        console.log(this.currentItem.iouNum)
                         if (resp.data.data.result.length > 0) {
                             this.loanDetail.toPay = resp.data.data.result[0];
                             this.loanDetail.rest = resp.data.data.result;
@@ -366,117 +370,166 @@
             // 还指定金额
             repayBill () {
                 this.payProgress = true;
-                setTimeout(() => {
-                    this.payProgress = false;
-                    this.dialogRepay = false;
-                    this.openIndex = "4";
-                    this.getInfo();
-                }, 2000);
-                // this.payProgress = true;
+                // setTimeout(() => {
+                //     this.payProgress = false;
+                //     this.dialogRepay = false;
+                //     this.openIndex = "4";
+                //     this.getInfo();
+                // }, 2000);
                 //全额还款
-                // if (this.repayForm.hkje === this.currentRepayItem.remainAmount) {
-                    // this.$axios.post(
-                    //     '/plan/repayAll',
-                    //     {},
-                    //     {
-                    //         params:{
-                    //             compoundInterest: this.currentRepayItem.compoundInterest,
-                    //             createTime: this.currentRepayItem.createTime,
-                    //             creator: this.currentRepayItem.creator,
-                    //             currentDate: this.getNowFormatDate(),
-                    //             id: this.currentRepayItem.id,
-                    //             iouNum: this.currentRepayItem.iouNum,
-                    //             payMethod: "1",
-                    //             penaltyInterest: this.currentRepayItem.penaltyInterest,
-                    //             planAmount: this.currentRepayItem.planAmount,
-                    //             planDate: this.currentRepayItem.planDate,
-                    //             planInterest: this.currentRepayItem.planInterest,
-                    //             planNum: this.currentRepayItem.planNum,
-                    //             planPrincipal: this.currentRepayItem.planPrincipal,
-                    //             remainAmount: this.currentRepayItem.remainAmount,
-                    //             remainInterest: this.currentRepayItem.remainInterest,
-                    //             remainPrincipal: this.currentRepayItem.remainPrincipal,
-                    //             repaymentStatus: this.currentRepayItem.repaymentStatus,
-                    //             transcationCode: "2006",
-                    //             updateTime: this.currentRepayItem.updateTime,
-                    //         }
-                    //     }
-                    // )
-                    //     .then(resp => {
-                    //         //Todo
-                    //     })
-                    //     .catch(error => {
-                    //         console.log(error);
-                    //     });
-                // }
-                // else {//部分还款
-                    // this.$axios.post(
-                    //     '/plan/repayPart',
-                    //     {},
-                    //     {
-                    //         params:{
-                    //             currentDate: this.getNowFormatDate(),
-                    //             iouNum: this.currentRepayItem.iouNum,
-                    //             paidAmount:this.repayForm.hkje,
-                    //             payMethod: "1",
-                    //             planDate: this.currentRepayItem.planDate,
-                    //             planId: this.currentRepayItem.id,
-                    //             remainAmount: this.currentRepayItem.remainAmount,
-                    //             repaymentStatus: this.currentRepayItem.repaymentStatus,
-                    //         }
-                    //     }
-                    // )
-                    //     .then(resp => {
-                    //         //Todo
-                    //     })
-                    //     .catch(error => {
-                    //         console.log(error);
-                    //     });
-                // }
-                this.$notify({
-                    title: '余额不足，扣款失败',
-                    type: 'error'
-                });
-                this.$message({
-                    showClose: true,
-                    message: '扣款成功',
-                    type: 'success'
-                });
+                if (this.repayForm.hkje === this.currentRepayItem.remainAmount
+                && this.currentRepayItem.remainAmount === this.currentRepayItem.planAmount) {
+                    this.$axios.post(
+                        '/plan/repayAll',
+                        // {},
+                        {
+                            params:{
+                                compoundInterest: this.currentRepayItem.compoundInterest,
+                                createTime: this.currentRepayItem.createTime,
+                                creator: this.currentRepayItem.creator,
+                                currentDate: this.getNowFormatDate(),
+                                id: this.currentRepayItem.id,
+                                iouNum: this.currentRepayItem.iouNum,
+                                payMethod: "1",
+                                penaltyInterest: this.currentRepayItem.penaltyInterest,
+                                planAmount: this.currentRepayItem.planAmount,
+                                planDate: this.currentRepayItem.planDate,
+                                planInterest: this.currentRepayItem.planInterest,
+                                planNum: this.currentRepayItem.planNum,
+                                planPrincipal: this.currentRepayItem.planPrincipal,
+                                remainAmount: this.currentRepayItem.remainAmount,
+                                remainInterest: this.currentRepayItem.remainInterest,
+                                remainPrincipal: this.currentRepayItem.remainPrincipal,
+                                repaymentStatus: this.currentRepayItem.repaymentStatus,
+                                transcationCode: "2006",
+                                updateTime: this.currentRepayItem.updateTime,
+                            }
+                        }
+                    )
+                        .then(resp => {
+                            //Todo
+                            if (resp.data.flag === "true") {
+                                this.$message({
+                                    showClose: true,
+                                    message: '扣款成功',
+                                    type: 'success'
+                                });
+                            }
+                            else {
+                                this.$notify({
+                                    title: '余额不足，扣款失败',
+                                    type: 'error'
+                                });
+                            }
+                            this.payProgress = false;
+                            this.dialogRepay = false;
+                            this.openIndex = "4";
+                            this.getInfo();
+                        })
+                        .catch(error => {
+                            console.log(error);
+                        });
+                }
+                else {//部分还款
+                    this.$axios.post(
+                        '/plan/repayPart',
+                        // {},
+                        {
+                            params:{
+                                currentDate: this.getNowFormatDate(),
+                                iouNum: this.currentRepayItem.iouNum,
+                                paidAmount:this.repayForm.hkje,
+                                payMethod: "1",
+                                planDate: this.currentRepayItem.planDate,
+                                planId: this.currentRepayItem.id,
+                                remainAmount: this.currentRepayItem.remainAmount,
+                                repaymentStatus: this.currentRepayItem.repaymentStatus,
+                            }
+                        }
+                    )
+                        .then(resp => {
+                            //Todo
+                            if (resp.data.flag === "true") {
+                                this.$message({
+                                    showClose: true,
+                                    message: '扣款成功',
+                                    type: 'success'
+                                });
+                            }
+                            else {
+                                this.$notify({
+                                    title: '余额不足，扣款失败',
+                                    type: 'error'
+                                });
+                            }
+                            this.payProgress = false;
+                            this.dialogRepay = false;
+                            this.openIndex = "4";
+                            this.getInfo();
+                        })
+                        .catch(error => {
+                            console.log(error);
+                        });
+                }
+                // this.$notify({
+                //     title: '余额不足，扣款失败',
+                //     type: 'error'
+                // });
+                // this.$message({
+                //     showClose: true,
+                //     message: '扣款成功',
+                //     type: 'success'
+                // });
             },
             payPenalty () {
                 this.payProgress = true;
-                setTimeout(() => {
-                    this.payProgress = false;
-                    this.dialogPenalty = false;
-                }, 2000);
-                // this.$axios.post(
-                //     '/penalty/repay',
-                //     {},
-                //     {
-                //         params:{
-                //             amount: this.currentItem.penalty,
-                //             customerCode: this.currentItem.customerCode,
-                //             iouNum: this.currentRepayItem.iouNum,
-                //             status: "1",
-                //         }
-                //     }
-                // )
-                //     .then(resp => {
-                //         //Todo
-                //     })
-                //     .catch(error => {
-                //         console.log(error);
-                //     });
-                this.$notify({
-                    title: '余额不足，扣款失败',
-                    type: 'error'
-                });
-                this.$message({
-                    showClose: true,
-                    message: '扣款成功',
-                    type: 'success'
-                });
-                this.currentItem.penalty = 0;
+                // setTimeout(() => {
+                //     this.payProgress = false;
+                //     this.dialogPenalty = false;
+                // }, 2000);
+                this.$axios.post(
+                    '/penalty/repay',
+                    // {},
+                    {
+                        params:{
+                            amount: this.currentItem.penalty,
+                            customerCode: this.currentItem.customerCode,
+                            iouNum: this.currentRepayItem.iouNum,
+                            status: "1",
+                        }
+                    }
+                )
+                    .then(resp => {
+                        //Todo
+                        if (resp.data.code === "200") {
+                            this.$message({
+                                showClose: true,
+                                message: '扣款成功',
+                                type: 'success'
+                            });
+                            this.currentItem.penalty = 0;
+                        }
+                        else {
+                            this.$notify({
+                                title: '余额不足，扣款失败',
+                                type: 'error'
+                            });
+                        }
+                        this.payProgress = false;
+                        this.dialogPenalty = false;
+                    })
+                    .catch(error => {
+                        console.log(error);
+                    });
+                // this.$notify({
+                //     title: '余额不足，扣款失败',
+                //     type: 'error'
+                // });
+                // this.$message({
+                //     showClose: true,
+                //     message: '扣款成功',
+                //     type: 'success'
+                // });
             },
             // 还款
             repayHandler () {
